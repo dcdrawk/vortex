@@ -61,13 +61,7 @@ import Axios from 'axios'
 
 export default {
   // Name
-  name: 'home',
-
-  // Components
-  components: {},
-
-  // Props
-  props: {},
+  name: 'new-post',
 
   // Data
   data () {
@@ -76,14 +70,6 @@ export default {
       title: undefined,
       body: undefined
     }
-  },
-
-  // Created
-  created () {},
-
-  // Mounted
-  mounted () {
-    console.log('Home!')
   },
 
   // Methods
@@ -108,24 +94,8 @@ export default {
         })
         this.$router.push('/posts')
       } catch (error) {
-        console.warn(error)
         this.handleError(error)
       }
-      // try {
-      //   const test = await this.$validator.validateAll()
-      //   console.log(test)
-      //   const response = await Axios.post('/register', {
-      //     namne: this.name,
-      //     email: this.email,
-      //     password: this.password
-      //   })
-      //   console.log(response)
-      //   // this.error = undefined
-      //   // this.$store.commit('update_user', response.data.user)
-      // } catch (error) {
-      //   this.error = 'Something went wrong!'
-      //   this.handleError(error.response.data)
-      // }
     },
 
     handleError (data) {

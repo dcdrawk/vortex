@@ -71,7 +71,7 @@ import Axios from 'axios'
 
 export default {
   // Name
-  name: 'home',
+  name: 'sign-in',
 
   // Data
   data () {

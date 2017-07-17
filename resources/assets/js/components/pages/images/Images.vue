@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition name="slide-y-transition" appear>
+    <transition name="slide-y-transition">
       <v-alert warning value="true" v-if="!user">
         You must sign in to view this page.
       </v-alert>

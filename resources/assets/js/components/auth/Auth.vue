@@ -9,25 +9,11 @@ export default {
   // Name
   name: 'auth',
 
-  // Components
-  components: {},
-
-  // Props
-  props: {},
-
-  // Data
-  data () {
-    return {
-      msg: 'Hello World'
-    }
-  },
-
-  // Created
-  created () {},
-
   // Mounted
   mounted () {
-    this.checkUser()
+    if (this.userId) {
+      this.checkUser()
+    }
   },
 
   // Methods
@@ -45,11 +31,11 @@ export default {
   },
 
   // Computed
-  computed: {},
-
-  // Watch
-  watch: {}
-
+  computed: {
+    userId () {
+      return this.$store.state.userId
+    }
+  }
 }
 </script>
 

@@ -1,12 +1,8 @@
 <template>
   <!-- App Container -->
-  <!--<div id="app">-->
-    <!-- Router View -->
   <shell>
-    <!--<router-view></router-view>-->
     <toast></toast>
   </shell>
-  <!--</div>-->
 </template>
 
 <script>

@@ -4,7 +4,9 @@
     <toolbar></toolbar>
     <main>
       <v-container fluid>
-        <router-view></router-view>
+        <transition name="slide-y-reverse-transition" mode="out-in" appear>
+          <router-view></router-view>
+        </transition>
       </v-container>
       <slot></slot>
     </main>
@@ -26,33 +28,7 @@ export default {
     Auth,
     NavigationDrawer,
     Toolbar
-  },
-
-  // Props
-  props: {},
-
-  // Data
-  data () {
-    return {
-      msg: 'Hello World'
-    }
-  },
-
-  // Created
-  created () {},
-
-  // Mounted
-  mounted () {},
-
-  // Methods
-  methods: {},
-
-  // Computed
-  computed: {},
-
-  // Watch
-  watch: {}
-
+  }
 }
 </script>
 

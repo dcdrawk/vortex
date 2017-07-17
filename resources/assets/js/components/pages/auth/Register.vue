@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-card>
-
       <!-- Card Title -->
       <v-card-title class="blue-grey white--text">
         <div class="title">Register - New User</div>
@@ -10,7 +9,6 @@
       <!-- Card Text -->
       <v-card-text>
         <v-layout column>
-          <!--{{ errors }}-->
           <!-- Email -->
           <v-flex>
             <v-text-field
@@ -46,19 +44,22 @@
               label="Password"
               v-model="password"
               :error-messages="getErrors('password')"
-              v-validate="'required|confirmed:confirm_password'"
+              v-validate="'required|confirmed:Confirm Password|min:6'"
               required
             ></v-text-field>
           </v-flex>
 
-          <!-- Re-Password -->
+          <!-- Confirm Password -->
           <v-flex>
             <v-text-field
               type="password"
               class="mb-0"
-              name="confirm_password"
+              name="Confirm Password"
               label="Confirm Password"
               v-model="confirmPassword"
+              :error-messages="getErrors('Confirm Password')"
+              v-validate="'required'"
+              required
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -70,11 +71,10 @@
           flat
           class="primary--text"
           @click.native="submit()"
-        >
-          Submit
-        </v-btn>
-
+        >Submit</v-btn>
       </v-card-actions>
+
+      <v-progress-linear v-if="loading" indeterminate></v-progress-linear>
     </v-card>
   </div>
 </template>
@@ -84,13 +84,7 @@ import Axios from 'axios'
 
 export default {
   // Name
-  name: 'home',
-
-  // Components
-  components: {},
-
-  // Props
-  props: {},
+  name: 'register',
 
   // Data
   data () {
@@ -99,32 +93,30 @@ export default {
       name: undefined,
       password: undefined,
       confirmPassword: undefined,
-      error: undefined
+      error: undefined,
+      loading: false
     }
-  },
-
-  // Created
-  created () {},
-
-  // Mounted
-  mounted () {
-    console.log('Home!')
   },
 
   // Methods
   methods: {
+    /**
+     * Get the validation errors for that field
+     * @param {String} fieldName - the name of the input field
+     */
     getErrors (fieldName) {
       return this.errors.first(fieldName)
         ? [ this.errors.first(fieldName) ]
         : undefined
-      // return [() => {
-      //   return this.errors.first(fieldName)
-      //     ? this.errors.first(fieldName)
-      //     : true
-      // }]
     },
 
+    /**
+     * Submit the registration form
+     * on success - show a toast and redirect to the Sign In page
+     * on fail - show an error toast
+     */
     async submit () {
+      this.loading = true
       try {
         const valid = await this.$validator.validateAll()
         if (!valid) throw 'Invalid Fields.'
@@ -134,28 +126,21 @@ export default {
           password: this.password,
           password_confirmation: this.confirmPassword
         })
-        this.router.push('/')
+        this.$bus.$emit('toast', {
+          text: 'Registration Successful.'
+        })
+        this.$router.push('/')
       } catch (error) {
-        console.warn(error)
-        this.handleError(error)
+        this.handleError(error.response.data)
+      } finally {
+        this.loading = false
       }
-      // try {
-      //   const test = await this.$validator.validateAll()
-      //   console.log(test)
-      //   const response = await Axios.post('/register', {
-      //     namne: this.name,
-      //     email: this.email,
-      //     password: this.password
-      //   })
-      //   console.log(response)
-      //   // this.error = undefined
-      //   // this.$store.commit('update_user', response.data.user)
-      // } catch (error) {
-      //   this.error = 'Something went wrong!'
-      //   this.handleError(error.response.data)
-      // }
     },
 
+    /**
+     * Handle any errors from the API
+     * @param {Object} - data
+     */
     handleError (data) {
       if (typeof data !== 'object') {
         this.$bus.$emit('toast', {
@@ -164,25 +149,13 @@ export default {
         return
       }
       for (let i in data) {
-        if (Array.isArray(data[i])) {
-          this.$bus.$emit('toast', {
-            text: data[i][0], button: true
-          })
-        } else {
-          this.$bus.$emit('toast', {
-            text: data[i], button: true
-          })
-        }
+        this.$bus.$emit('toast', {
+          text: Array.isArray(data[i]) ? data[i][0] : data[i],
+          button: true
+        })
       }
     }
-  },
-
-  // Computed
-  computed: {},
-
-  // Watch
-  watch: {}
-
+  }
 }
 </script>
 
