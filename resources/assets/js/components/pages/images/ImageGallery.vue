@@ -5,6 +5,12 @@
       <div class="title">Image Gallery</div>
       <v-spacer></v-spacer>
     </v-card-title>
+    <!-- Progress Bar -->
+    <v-progress-linear
+      v-if="images.length === 0 && loading"
+      indeterminate
+      class="ma-0"
+    ></v-progress-linear>
 
     <!-- No Images Found Text -->
     <v-card-text v-if="images.length === 0 && !loading">
@@ -16,17 +22,17 @@
     </v-card-text>
 
     <!-- Loading Spinner -->
-    <v-card-text v-if="images.length === 0 && loading">
+    <!-- <v-card-text v-if="images.length === 0 && loading">
       <v-layout>
         <v-flex class="text-xs-center">
           <v-progress-circular indeterminate class="primary--text"></v-progress-circular>
         </v-flex>
       </v-layout>
-    </v-card-text>
+    </v-card-text> -->
 
     <!-- Image List Container -->
-    <v-container fluid grid-list-md>
-      <transition-group name="slide-y-reverse-transition" tag="v-layout" class="row wrap">
+    <v-container fluid grid-list-md v-if="images.length > 0">
+      <transition-group name="slide-y-reverse-transition" tag="v-layout" class="row wrap" appear>
         <!-- Image List -->
         <v-flex xs3 lg2 xl1 v-for="(image, index) in images" :key="image.name">
           <!-- Image Card -->

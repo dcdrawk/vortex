@@ -80,6 +80,11 @@ export default {
         : undefined
     },
 
+    /**
+     * Submit the new post to the API
+     * On success - Shows a toast and redirects to the /posts page
+     * On error - Show the errors from the API as toasts
+     */
     async submit () {
       try {
         const valid = await this.$validator.validateAll()
@@ -98,33 +103,18 @@ export default {
       }
     },
 
+    /**
+     * Handle any errors from the api
+     */
     handleError (data) {
-      if (typeof data !== 'object') {
-        this.$bus.$emit('toast', {
-          text: 'An Error Occurred. Please try again.'
-        })
-        return
-      }
       for (let i in data) {
-        if (Array.isArray(data[i])) {
-          this.$bus.$emit('toast', {
-            text: data[i][0], button: true
-          })
-        } else {
-          this.$bus.$emit('toast', {
-            text: data[i], button: true
-          })
-        }
+        this.$bus.$emit('toast', {
+          text: Array.isArray(data[i]) ? data[i][0] : data[i],
+          button: true
+        })
       }
     }
-  },
-
-  // Computed
-  computed: {},
-
-  // Watch
-  watch: {}
-
+  }
 }
 </script>
 

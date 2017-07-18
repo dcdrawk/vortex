@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 Auth::routes();
@@ -25,6 +25,7 @@ Route::prefix('api')->group(function () {
     Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 });
 
+// Api Routes
 Route::prefix('api')->middleware(['auth'])->group(function () {
     Route::get('/user', 'UserController@user')->name('user');
 
@@ -39,8 +40,3 @@ Route::prefix('api')->middleware(['auth'])->group(function () {
     Route::get('/images', 'UploadController@index');
     Route::post('/images', 'UploadController@store');
 });
-// Route::get('/posts', 'ShowProfile')->name();
-
-// Auth::routes();
-
-// Route::get('/home', 'HomeController@index')->name('home');

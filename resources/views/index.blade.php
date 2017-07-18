@@ -7,7 +7,7 @@
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>My App</title>
+        <title>Vortex</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:400|Material+Icons" rel="stylesheet" type="text/css">
@@ -16,15 +16,14 @@
         <!-- Styles -->
         <style></style>
     </head>
+
     <body>
+        <!-- Vue Application -->
         <div id="app">
             <app><app/>
-            {{-- test --}}
-            {{-- <router-view></router-view> --}}
         </div>
 
-        {{-- <script src="/js/app.js"></script> --}}
+        <!-- Scripts -->
         <script src="{{ mix('js/main.js') }}"></script>
-        {{-- <script src="http://localhost:8080/js/bundle.js"></script> --}}
     </body>
 </html>

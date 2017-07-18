@@ -5,8 +5,6 @@
         <span class="title">Upload Files</span>
       </v-card-title>
       <div class="dropzone" fill-height @dragover.prevent @drop.prevent="dropHandler">
-
-
         <file-queue
           :files="fileQueue"
         ></file-queue>
@@ -110,13 +108,9 @@ export default {
 .dropzone {
   min-height: 220px;
   background-color: #eee;
-  // border: 3px dashed rgba(0, 0, 0, .5);
-  // margin: 20px;
-  // min-height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
-  // padding: 10px;
 }
 
 .default-message {

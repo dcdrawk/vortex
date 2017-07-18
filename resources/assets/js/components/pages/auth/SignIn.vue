@@ -46,6 +46,12 @@
           Submit
         </v-btn>
       </v-card-actions>
+
+      <!-- Progress Bar -->
+      <v-progress-linear
+        v-if="loading"
+        indeterminate
+      ></v-progress-linear>
     </v-card>
 
     <!-- Success / Error alerts -->

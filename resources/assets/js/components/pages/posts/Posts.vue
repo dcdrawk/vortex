@@ -9,9 +9,7 @@
         <v-btn
           class="ma-0 ml-2"
           router to="/posts/new"
-        >
-          New Post
-        </v-btn>
+        >New Post</v-btn>
       </v-card-title>
 
       <!-- Card Text -->

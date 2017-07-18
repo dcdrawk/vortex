@@ -74,7 +74,11 @@
         >Submit</v-btn>
       </v-card-actions>
 
-      <v-progress-linear v-if="loading" indeterminate></v-progress-linear>
+      <!-- Progress Bar -->
+      <v-progress-linear
+        v-if="loading"
+        indeterminate
+      ></v-progress-linear>
     </v-card>
   </div>
 </template>
@@ -119,7 +123,7 @@ export default {
       this.loading = true
       try {
         const valid = await this.$validator.validateAll()
-        if (!valid) throw 'Invalid Fields.'
+        if (!valid) return
         await Axios.post('/register', {
           name: this.name,
           email: this.email,
@@ -142,12 +146,6 @@ export default {
      * @param {Object} - data
      */
     handleError (data) {
-      if (typeof data !== 'object') {
-        this.$bus.$emit('toast', {
-          text: 'An Error Occurred. Please try again.'
-        })
-        return
-      }
       for (let i in data) {
         this.$bus.$emit('toast', {
           text: Array.isArray(data[i]) ? data[i][0] : data[i],

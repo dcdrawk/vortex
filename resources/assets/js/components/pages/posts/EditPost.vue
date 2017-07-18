@@ -160,7 +160,7 @@ export default {
       try {
         this.loading = true
         const valid = await this.$validator.validateAll()
-        if (!valid) throw 'Invalid Fields.'
+        if (!valid) return
         await Axios.post(`/api/posts/${this.post.id}`, {
           title: this.post.title,
           body: this.post.body
@@ -169,32 +169,21 @@ export default {
           text: 'Post updated successfully.'
         })
       } catch (error) {
-        console.warn(error)
+        this.handleError(error)
       } finally {
         this.loading = false
       }
     },
 
     /**
-     * Handle Any potential errors
+     * Handle any errors from the api
      */
     handleError (data) {
-      if (typeof data !== 'object') {
-        this.$bus.$emit('toast', {
-          text: 'An Error Occurred. Please try again.'
-        })
-        return
-      }
       for (let i in data) {
-        if (Array.isArray(data[i])) {
-          this.$bus.$emit('toast', {
-            text: data[i][0], button: true
-          })
-        } else {
-          this.$bus.$emit('toast', {
-            text: data[i], button: true
-          })
-        }
+        this.$bus.$emit('toast', {
+          text: Array.isArray(data[i]) ? data[i][0] : data[i],
+          button: true
+        })
       }
     }
   }
