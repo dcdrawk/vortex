@@ -28,7 +28,6 @@
 import Axios from 'axios'
 import Dropzone from './Dropzone'
 import ImageGallery from './ImageGallery'
-// import Clipboard from 'clipboard'
 
 export default {
   // Name
@@ -64,12 +63,10 @@ export default {
 
   // Methods
   methods: {
-    getErrors (fieldName) {
-      return this.errors.first(fieldName)
-        ? [ this.errors.first(fieldName) ]
-        : undefined
-    },
-
+    /**
+     * Get a list of images from the API
+     * @param {string} [url] - next page URL from the api
+     */
     async getImages (url) {
       try {
         this.loading = true
@@ -87,34 +84,18 @@ export default {
       }
     },
 
+    /**
+     * Add an image to the beginning of the images array,
+     * remove the one at the end
+     * @param {Object} image
+     */
     addImage (image) {
       this.images.pop()
       this.images.unshift(image)
-    },
-
-    handleError (data) {
-      if (typeof data !== 'object') {
-        this.$bus.$emit('toast', {
-          text: 'An Error Occurred. Please try again.'
-        })
-        return
-      }
-      for (let i in data) {
-        if (Array.isArray(data[i])) {
-          this.$bus.$emit('toast', {
-            text: data[i][0], button: true
-          })
-        } else {
-          this.$bus.$emit('toast', {
-            text: data[i], button: true
-          })
-        }
-      }
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-
 </style>

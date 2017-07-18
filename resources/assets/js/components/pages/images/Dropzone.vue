@@ -1,16 +1,21 @@
 <template>
-  <div>
-    <v-card class="dropzone-container">
-      <v-card-title class="blue-grey white--text">
-        <span class="title">Upload Files</span>
-      </v-card-title>
-      <div class="dropzone" fill-height @dragover.prevent @drop.prevent="dropHandler">
-        <file-queue
-          :files="fileQueue"
-        ></file-queue>
+  <!-- Card -->
+  <v-card class="dropzone-container">
+    <!-- Card Title -->
+    <v-card-title class="blue-grey white--text">
+      <span class="title">Upload Files</span>
+    </v-card-title>
+
+    <!-- Dropzone -->
+    <div class="dropzone" fill-height @dragover.prevent @drop.prevent="dropHandler">
+      <!-- File Queue -->
+      <file-queue
+        :files="fileQueue"
+      ></file-queue>
+      <!-- Card Text -->
       <v-card-text v-if="fileQueue.length === 0" class="default-message">
         <v-layout>
-          <v-flex align-center class="text-xs-center">
+          <v-flex align-center column class="text-xs-center">
             <div>
               <v-icon class="upload-icon">cloud_upload</v-icon>
             </div>
@@ -18,9 +23,8 @@
           </v-flex>
         </v-layout>
       </v-card-text>
-      </div>
-    </v-card>
-  </div>
+    </div>
+  </v-card>
 </template>
 
 <script>
@@ -40,19 +44,20 @@ export default {
   // Data
   data () {
     return {
-      msg: 'Hello World',
       fileQueue: []
     }
   },
 
   // Methods
   methods: {
+    /**
+     * Handles drop events for the dropzone
+     * @param {Object} - event
+     */
     dropHandler (event) {
-      console.log(event)
       event.preventDefault()
       const dt = event.dataTransfer
       if (dt.items) {
-        console.log('there are items!')
         for (var i = 0; i < dt.items.length; i++) {
           if (dt.items[i].kind === 'file') {
             var file = dt.items[i].getAsFile()
@@ -62,6 +67,10 @@ export default {
       }
     },
 
+    /**
+     * Read a file and queue it for upload
+     * @param {Object} - file
+     */
     queueFile (file) {
       const reader = new FileReader()
       reader.addEventListener('load', () => {
@@ -78,6 +87,13 @@ export default {
       reader.readAsDataURL(file)
     },
 
+    /**
+     * Upload a file to the api
+     * Keeps track of the upload progress and updates the ui
+     * @param {Object} - file
+     * @param {number} - index
+     * @emits {Object} - @upload-complete
+     */
     async uploadFile (file, index) {
       const data = new FormData()
       data.append('file', file)
@@ -90,7 +106,6 @@ export default {
           }, 250)
         })
         this.fileQueue[index].complete = true
-        // console.log(response)
         const image = response.data
         this.$emit('upload-complete', image)
       } catch (error) {
