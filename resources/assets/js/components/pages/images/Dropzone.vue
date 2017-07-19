@@ -3,11 +3,18 @@
   <v-card class="dropzone-container">
     <!-- Card Title -->
     <v-card-title class="blue-grey white--text">
-      <span class="title">Upload Files</span>
+      <span class="title">Upload Files {{ dragover }}</span>
     </v-card-title>
 
     <!-- Dropzone -->
-    <div class="dropzone" fill-height @dragover.prevent @drop.prevent="dropHandler">
+    <div class="dropzone"
+      :class="{'hover': dragover}"
+      fill-height
+      @drop.prevent="dropHandler"
+      @dragover.prevent="dragover = true"
+      @dragend.prevent="dragover = false"
+      @dragleave.prevent="dragover = false"
+    >
       <!-- File Queue -->
       <file-queue
         :files="fileQueue"
@@ -44,7 +51,8 @@ export default {
   // Data
   data () {
     return {
-      fileQueue: []
+      fileQueue: [],
+      dragover: false
     }
   },
 
@@ -126,6 +134,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all .25s ease-out;
+  &.hover {
+    background-color: #E0E0E0;
+  }
 }
 
 .default-message {

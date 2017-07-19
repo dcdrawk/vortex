@@ -44,7 +44,8 @@ export default {
     return {
       images: [],
       loading: false,
-      nextUrl: undefined
+      nextUrl: undefined,
+      limit: 12
     }
   },
 
@@ -90,7 +91,9 @@ export default {
      * @param {Object} image
      */
     addImage (image) {
-      this.images.pop()
+      if (this.images.length > this.limit) {
+        this.images.pop()
+      }
       this.images.unshift(image)
     }
   }

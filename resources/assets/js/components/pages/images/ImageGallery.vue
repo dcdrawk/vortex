@@ -5,6 +5,12 @@
     <v-card-title class="blue-grey white--text">
       <div class="title">Image Gallery</div>
       <v-spacer></v-spacer>
+      <v-text-field
+        dark
+        class="search-bar ma-0 white--text"
+        append-icon="search"
+        placeholder="Search..."
+      ></v-text-field>
     </v-card-title>
 
     <!-- Progress Bar -->
@@ -121,5 +127,25 @@ export default {
 }
 .slide-y-reverse-transition-move {
   transition: transform 250ms ease-out;
+}
+.search-bar {
+  color: #fff;
+  height: 30px;
+  ::-webkit-input-placeholder {
+    color: #fff;
+  }
+  .input-group__details:after {
+    background-color: #fff;
+  }
+}
+</style>
+<style lang="scss">
+.search-bar {
+  .input-group__details:after {
+    background-color: #fff;
+  }
+  &.input-group.input-group--focused .input-group__input .icon {
+    color: #fff;
+  }
 }
 </style>

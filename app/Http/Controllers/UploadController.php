@@ -101,7 +101,7 @@ class UploadController extends Controller
     {
         //
         $image = Upload::with('tagged')->findOrFail($id);
-        $tags = $tags = $image->tagNames();
+        $tags = $image->tagNames();
         $image['image_tags'] = $tags;
         unset($image['tagged']);
 
@@ -133,10 +133,26 @@ class UploadController extends Controller
         //
         $upload = Upload::find($id);
 
-        $upload->name = $request->input('name');
-        $upload->tag('test_tag');
+        $name = $request->input('names');
+        $tags = $request->input('tags');
+
+        if ($name) {
+            $upload->name = $name;
+        }
+        // dd($request->exists('tags'));
+
+        if ($request->exists('tags') && $tags) {
+            $tagArray = explode(',', $tags);
+            $upload->retag($tagArray);
+        } else if ($request->exists('tags') && !$tags) {
+            $upload->untag();
+        }
 
         $upload->save();
+
+        $tags = $upload->tagNames();
+        $upload['image_tags'] = $tags;
+        unset($upload['tagged']);
 
         return response()->json([
             'image' => $upload
