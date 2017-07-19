@@ -18,12 +18,44 @@ class UploadController extends Controller
      */
     public function index()
     {
-        // $uploads = DB::table('uploads')->get();
         $uploads = DB::table('uploads')
                     ->orderBy('created_at', 'desc')
                     ->paginate(12);
         return response()->json([
             'images' => $uploads
+        ]);
+        //
+    }
+
+    /**
+     * Search through tags of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        // dd('test');
+        $search = $request->input('search');
+        $uploads = Upload::withAnyTag($search)
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(12);
+        return response()->json([
+            'images' => $uploads
+        ]);
+        //
+    }
+
+    /**
+     * Return all tags associated with Uploads
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function tags(Request $request)
+    {
+        // dd('test');
+        $tags = Upload::existingTags();
+        return response()->json([
+            'tags' => $tags
         ]);
         //
     }

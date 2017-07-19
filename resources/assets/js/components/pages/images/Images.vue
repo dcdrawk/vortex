@@ -18,6 +18,7 @@
           :loading="loading"
           :nextUrl="nextUrl"
           @load-more="getImages(nextUrl)"
+          @search="getImages(undefined, $event)"
         ></image-gallery>
       </div>
     </transition>
@@ -45,7 +46,8 @@ export default {
       images: [],
       loading: false,
       nextUrl: undefined,
-      limit: 12
+      limit: 12,
+      test: undefined
     }
   },
 
@@ -68,11 +70,16 @@ export default {
      * Get a list of images from the API
      * @param {string} [url] - next page URL from the api
      */
-    async getImages (url) {
+    async getImages (url, search) {
       try {
         this.loading = true
-        const response = await Axios.get(url || '/api/images')
-        if (this.images.length === 0) {
+        const getURL = !search ? url || '/api/images' : '/api/images/search'
+        const response = await Axios.get(getURL, {
+          params: {
+            search: search
+          }
+        })
+        if (!url) {
           this.images = response.data.images.data
         } else {
           this.images = this.images.concat(response.data.images.data)

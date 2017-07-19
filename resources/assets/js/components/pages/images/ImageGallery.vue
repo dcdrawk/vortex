@@ -2,23 +2,30 @@
   <!-- Card -->
   <v-card class="mt-2">
     <!-- Card Title -->
-    <v-card-title class="blue-grey white--text">
+    <v-card-title class="blue-grey white--text" justify-start flexbox>
       <div class="title">Image Gallery</div>
       <v-spacer></v-spacer>
-      <v-text-field
+
+      <v-select
+        class="search-bar ma-0"
         dark
-        class="search-bar ma-0 white--text"
-        append-icon="search"
-        placeholder="Search..."
-      ></v-text-field>
+        v-model="search"
+        label="Filter by Tag"
+        single-line
+        :items="tags"
+        item-value="name"
+        item-text="name"
+        :append-icon="!search ? 'search' : ''"
+        :append-icon-cb="() => { if (search) test() }"
+        @input="$emit('search', search)"
+      >
+
+      </v-select>
+      <v-icon dark class="close-icon" v-if="search" @click="search = undefined">
+        close
+      </v-icon>
     </v-card-title>
 
-    <!-- Progress Bar -->
-    <v-progress-linear
-      v-if="images.length === 0 && loading"
-      indeterminate
-      class="ma-0"
-    ></v-progress-linear>
 
     <!-- No Images Found Text -->
     <v-card-text v-if="images.length === 0 && !loading">
@@ -33,7 +40,7 @@
     <v-container fluid grid-list-md v-if="images.length > 0">
       <transition-group name="slide-y-reverse-transition" tag="v-layout" class="row wrap" appear>
         <!-- Image List -->
-        <v-flex xs3 lg2 xl1 v-for="(image, index) in images" :key="image.name">
+        <v-flex xs12 sm6 md4 lg3 xl2 v-for="(image, index) in images" :key="image.name">
           <!-- Image Card -->
           <v-card flat tile @click="$router.push(`images/${image.id}`)">
             <v-card-media
@@ -45,19 +52,19 @@
               <v-container fluid class="image-name">
                 <v-layout fill-height>
                   <v-flex xs12 align-center flexbox class="white--text">
-                    <!-- Image Name -->
-                    <span v-text="image.name"></span>
-                    <v-spacer></v-spacer>
-
                     <!-- Copy Icon -->
                     <v-btn
                       icon dark
-                      class="ma-0"
+                      class="ma-0 mr-1 copy-icon"
                       v-clipboard="getUrl(image)"
                       @click.native.stop="showCopyToast"
                     >
                       <v-icon>content_copy</v-icon>
                     </v-btn>
+                    <v-spacer></v-spacer>
+                    <!-- Image Name -->
+                    <span v-text="image.name"></span>
+
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -79,10 +86,18 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <!-- Progress Bar -->
+    <v-progress-linear
+      v-if="loading"
+      indeterminate
+      class="ma-0"
+    ></v-progress-linear>
   </v-card>
 </template>
 
 <script>
+import Axios from 'axios'
+
 export default {
   // Name
   name: 'image-gallery',
@@ -92,6 +107,18 @@ export default {
     images: Array,
     loading: Boolean,
     nextUrl: String
+  },
+
+  // Data
+  data () {
+    return {
+      search: undefined,
+      tags: undefined
+    }
+  },
+
+  mounted () {
+    this.getTags()
   },
 
   // Methods
@@ -106,6 +133,18 @@ export default {
     },
 
     /**
+     * Get an array of image tags from the API
+     */
+    async getTags () {
+      try {
+        const response = await Axios.get('api/images/tags')
+        this.tags = response.data.tags
+      } catch (error) {
+        console.warn(error)
+      }
+    },
+
+    /**
      * Show a toast when the URL is copied
      */
     showCopyToast () {
@@ -114,12 +153,22 @@ export default {
         button: true,
         timeout: 1000
       })
+    },
+
+    test () {
+      console.log('test')
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.close-icon {
+  position: absolute;
+  right: 16px;
+  cursor: pointer;
+  // top: 10px;
+}
 .image-name {
   position: absolute;
   bottom: 0;
@@ -129,14 +178,20 @@ export default {
   transition: transform 250ms ease-out;
 }
 .search-bar {
+  position: relative;
   color: #fff;
-  height: 30px;
+  max-width: 200px;
+  // top: 8px;
+  // height: 30px;
   ::-webkit-input-placeholder {
     color: #fff;
   }
   .input-group__details:after {
     background-color: #fff;
   }
+}
+.copy-icon {
+  min-width: 36px;
 }
 </style>
 <style lang="scss">
@@ -146,6 +201,17 @@ export default {
   }
   &.input-group.input-group--focused .input-group__input .icon {
     color: #fff;
+  }
+  .input-group__details {
+    padding-top: 1px;
+    min-height: 0px;
+    // display: none;
+  }
+  label {
+    color: #fff !important;
+  }
+  &.input-group--select.input-group--focused .input-group__append-icon {
+    transform: rotate(0deg) !important;
   }
 }
 </style>
