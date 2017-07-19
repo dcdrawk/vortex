@@ -12,3 +12,4 @@ yarn-error.log
 .env
 hot
 /public/uploads
+public/mix-manifest.json

@@ -16,7 +16,6 @@
         item-value="name"
         item-text="name"
         :append-icon="!search ? 'search' : ''"
-        :append-icon-cb="() => { if (search) test() }"
         @input="$emit('search', search)"
       >
 
@@ -37,6 +36,8 @@
     </v-card-text>
 
     <!-- Image List Container -->
+    <transition name="fade-transition">
+
     <v-container fluid grid-list-md v-if="images.length > 0">
       <transition-group name="slide-y-reverse-transition" tag="v-layout" class="row wrap" appear>
         <!-- Image List -->
@@ -86,6 +87,7 @@
         </v-flex>
       </v-layout>
     </v-container>
+    </transition>
     <!-- Progress Bar -->
     <v-progress-linear
       v-if="loading"
@@ -153,10 +155,6 @@ export default {
         button: true,
         timeout: 1000
       })
-    },
-
-    test () {
-      console.log('test')
     }
   }
 }

@@ -3,7 +3,7 @@
   <v-card class="dropzone-container">
     <!-- Card Title -->
     <v-card-title class="blue-grey white--text">
-      <span class="title">Upload Files {{ dragover }}</span>
+      <span class="title">Upload Files</span>
     </v-card-title>
 
     <!-- Dropzone -->

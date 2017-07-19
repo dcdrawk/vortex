@@ -1,6 +1,6 @@
 <template>
   <v-toolbar class="primary" dark>
-    <v-toolbar-title>Vortex</v-toolbar-title>
+    <v-toolbar-title>Vortex - {{$route.name}}</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-menu v-if="user">
       <v-btn icon dark slot="activator">
@@ -22,25 +22,6 @@ export default {
   // Name
   name: 'toolbar',
 
-  // Components
-  components: {},
-
-  // Props
-  props: {},
-
-  // Data
-  data () {
-    return {
-      msg: 'Hello World'
-    }
-  },
-
-  // Created
-  created () {},
-
-  // Mounted
-  mounted () {},
-
   // Methods
   methods: {
     async logout () {
@@ -59,11 +40,7 @@ export default {
     user () {
       return this.$store.state.user
     }
-  },
-
-  // Watch
-  watch: {}
-
+  }
 }
 </script>
 

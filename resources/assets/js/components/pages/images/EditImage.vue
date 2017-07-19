@@ -1,5 +1,6 @@
 <template>
   <v-card tile>
+    <transition name="fade-transition">
 
     <v-layout row wrap v-if="image">
       <!-- Image -->
@@ -59,6 +60,7 @@
         </v-card-text>
       </v-flex>
     </v-layout>
+    </transition>
 
     <!-- Progress Bar -->
     <v-progress-linear
