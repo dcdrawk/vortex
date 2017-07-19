@@ -40,6 +40,7 @@
     "raw-loader": "^0.5.1",
     "v-clipboard": "^1.0.4",
     "vee-validate": "^2.0.0-rc.6",
+    "vue-template-compiler": "^2.4.1",
     "vuetify": "^0.14.5",
     "vuex": "^2.3.1"
   }
