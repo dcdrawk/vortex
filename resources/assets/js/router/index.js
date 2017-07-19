@@ -12,6 +12,7 @@ import EditPost from '../components/pages/posts/EditPost'
 
 // Images
 import Images from '../components/pages/images/Images'
+import EditImage from '../components/pages/images/EditImage'
 
 Vue.use(Router)
 
@@ -42,6 +43,10 @@ export default new Router({
       path: '/images',
       name: 'Images',
       component: Images
+    }, {
+      path: '/images/:id',
+      name: 'Edit Image',
+      component: EditImage
     }
   ]
 })

@@ -85,9 +85,6 @@ class UploadController extends Controller
 
             $upload->save();
             return $upload;
-
-
-
         }
         else {
             return "oops";
@@ -103,9 +100,13 @@ class UploadController extends Controller
     public function show($id)
     {
         //
-        $images = [];
+        $image = Upload::with('tagged')->findOrFail($id);
+        $tags = $tags = $image->tagNames();
+        $image['image_tags'] = $tags;
+        unset($image['tagged']);
+
         return response()->json([
-            'images' => $images
+            'image' => $image
         ]);
     }
 
@@ -130,6 +131,16 @@ class UploadController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $upload = Upload::find($id);
+
+        $upload->name = $request->input('name');
+        $upload->tag('test_tag');
+
+        $upload->save();
+
+        return response()->json([
+            'image' => $upload
+        ]);
     }
 
     /**

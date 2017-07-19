@@ -184,9 +184,12 @@ return [
         /*
          * Intervantion Image
          */
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
 
-
+        /*
+         * Tagging
+         */
+        Conner\Tagging\Providers\TaggingServiceProvider::class,
     ],
 
     /*

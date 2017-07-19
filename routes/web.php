@@ -39,4 +39,6 @@ Route::prefix('api')->middleware(['auth'])->group(function () {
     // Images
     Route::get('/images', 'UploadController@index');
     Route::post('/images', 'UploadController@store');
+    Route::get('/images/{id}', 'UploadController@show');
+    Route::post('/images/{id}', 'UploadController@update');
 });
