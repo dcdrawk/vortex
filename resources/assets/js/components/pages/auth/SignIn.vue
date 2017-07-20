@@ -27,6 +27,7 @@
               name="password"
               label="Password"
               v-model="password"
+              @keyup.enter.native="submit()"
             ></v-text-field>
           </v-flex>
 

@@ -14,7 +14,11 @@
         <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
-        <style></style>
+        <style>
+            iframe {
+                background-color: red;
+            }
+        </style>
     </head>
 
     <body>

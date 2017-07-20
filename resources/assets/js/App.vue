@@ -19,4 +19,7 @@ export default {
 </script>
 
 <style>
+.webpack-dev-server-client-overlay-div {
+  background-color: red!important;
+}
 </style>

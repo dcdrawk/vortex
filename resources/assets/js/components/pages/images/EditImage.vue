@@ -91,6 +91,7 @@ export default {
       tag: undefined,
       editingTags: false,
       tagsCopy: undefined
+
     }
   },
 
@@ -103,7 +104,7 @@ export default {
 
   // Mounted
   mounted () {
-    this.getImage()
+    this.getImage(test)
   },
 
   // Methods

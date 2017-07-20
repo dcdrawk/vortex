@@ -24,6 +24,9 @@ mix.js('resources/assets/js/main.js', 'public/js/')
           loader: 'eslint-loader'
         }]
       } ]
+    },
+    devServer: {
+      overlay: true
     }
   })
 
